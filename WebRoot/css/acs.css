@@ -1,0 +1,534 @@
+body, select, input, td, th, dd, dt, h1, h2, h3, h4, h5, h6, p, ol, ul, li {
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+
+}
+
+body {
+    font-size: 9pt;
+    margin: 0px 0px 0px 4px;
+    background-color:#ECF2EF;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+}
+
+/* add css */
+
+input {
+    font-size: 9pt;
+}
+
+textarea, pre {
+    font-family: fixed;
+    font-size: 9pt;
+}
+
+img {
+    border: 0;
+}
+
+.pageTable {
+    border-bottom: solid 1px #8a8a8a;
+    width: 730px;
+    color: #000000;
+    margin: 20px 20px 20px 20px;
+    height: auto;
+}
+
+.pagetitletr {
+    width: 730px;
+    font-size: 12px;
+    color: #333333;
+    font-style: inherit;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+}
+
+.pagecontentr {
+    width: 730px;
+    font-size: 11px;
+    color: #666666;
+    font-style: inherit;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+}
+
+.pageInnerContent {
+    padding: 16px 16px 16px 16px;
+    margin: 0px 0px 0px 0px;
+    background-color: #ffffff;
+    font-size: 10px;
+    color: #333333;
+}
+
+.Hiliterows {
+    padding: 0px 0px 0px 40px;
+    font-style: normal;
+    font-size: 15px;
+    background-color: #ffffff;
+    color: #666666;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+}
+
+.Rows {
+    padding: 0px 0px 0px 40px;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    color: #333333;
+    background-color: #E7EFEB;
+}
+
+.ClickRows {
+    padding: 0px 0px 0px 40px;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    color: #666666;
+    background-color: #ffffff;
+}
+
+.banner {
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    color: #FF6633;
+    font-size: 24pt;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.menuTD {
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border-top: 1px solid black;
+}
+
+#myGrid {
+    width: 100%
+}
+
+#myGrid .aw-grid-row {
+    height: 20px;
+    border-bottom: 1px solid #ccc
+}
+
+#myGrid .aw-alternate-even {
+    background: #fff;
+}
+
+#myGrid .aw-alternate-odd {
+    background: #eee;
+}
+
+#myGrid .aw-alternate-even .aw-column-1 {
+    background: #eee;
+}
+
+#myGrid .aw-alternate-odd .aw-column-1 {
+    background: #ddd;
+}
+
+#myGrid .aw-rows-selected {
+    background: #316ac5;
+}
+
+#myGrid .aw-rows-selected .aw-column-1 {
+    background: #316ac5;
+}
+
+#myGrid .aw-column-0 {
+    width: 50px;
+    border-right: 1px dotted #ccc;
+}
+
+#myGrid .aw-column-1 {
+    width: 150px;
+    border-right: 1px dotted #ccc;
+}
+
+#myGrid .aw-column-2 {
+    text-align: right
+}
+
+#myGrid .aw-column-3 {
+    text-align: right
+}
+
+#myGrid .aw-column-4 {
+    text-align: right
+}
+
+#myGrid .aw-grid-row .aw-cells-selected {
+    background: #316ac5;
+}
+
+#myGrid .aw-grid-headers {
+    color: blue
+}
+
+#myGrid .aw-grid-headers .aw-column-1 {
+    font-weight: bold
+}
+
+#myGrid .aw-mouseover-header {
+    color: red;
+}
+
+#myGrid .aw-mousedown-header {
+    color: yellow;
+}
+
+#myGrid .aw-header-1 {
+    background: #def
+}
+
+#myGrid .aw-row-selector {
+    width: 20px;
+    text-align: center
+}
+
+#myGrid .aw-row-2 .aw-row-selector {
+    font-weight: bold
+}
+
+#myGrid .aw-mouseover-row .aw-row-selector {
+    color: red;
+}
+
+#myGrid .aw-mouseover-selector {
+    background: green;
+}
+
+#myGrid .aw-mousedown-selector {
+    background: yellow;
+}
+
+#historyGrid {
+    width: 100%
+}
+
+#historyGrid .aw-grid-row {
+    height: 20px;
+    border-bottom: 1px solid #ccc
+}
+
+#historyGrid .aw-alternate-even {
+    background: #fff;
+}
+
+#historyGrid .aw-alternate-odd {
+    background: #eee;
+}
+
+#historyGrid .aw-alternate-even .aw-column-1 {
+    background: #eee;
+}
+
+#historyGrid .aw-alternate-odd .aw-column-1 {
+    background: #ddd;
+}
+
+#historyGrid .aw-rows-selected {
+    background: #316ac5;
+}
+
+#historyGrid .aw-rows-selected .aw-column-1 {
+    background: #316ac5;
+}
+
+#historyGrid .aw-column-0 {
+    width: 50px;
+    border-right: 1px dotted #ccc;
+}
+
+#historyGrid .aw-column-1 {
+    width: 150px;
+    border-right: 1px dotted #ccc;
+}
+
+#historyGrid .aw-column-2 {
+    text-align: right
+}
+
+#historyGrid .aw-column-3 {
+    text-align: right
+}
+
+#historyGrid .aw-column-4 {
+    text-align: right
+}
+
+#historyGrid .aw-grid-row .aw-cells-selected {
+    background: #316ac5;
+}
+
+#historyGrid .aw-grid-headers {
+    color: blue
+}
+
+#historyGrid .aw-grid-headers .aw-column-1 {
+    font-weight: bold
+}
+
+#historyGrid .aw-mouseover-header {
+    color: red;
+}
+
+#historyGrid .aw-mousedown-header {
+    color: yellow;
+}
+
+#historyGrid .aw-header-1 {
+    background: #def
+}
+
+#historyGrid .aw-row-selector {
+    width: 20px;
+    text-align: center
+}
+
+#historyGrid .aw-row-2 .aw-row-selector {
+    font-weight: bold
+}
+
+#historyGrid .aw-mouseover-row .aw-row-selector {
+    color: red;
+}
+
+#historyGrid .aw-mouseover-selector {
+    background: green;
+}
+
+#historyGrid .aw-mousedown-selector {
+    background: yellow;
+}
+
+/*	need for dojo	*/
+.formTitle {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+    font-weight: 900;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    font-size: 9pt;
+    color: #5a5a5a;
+    background-image:url(../images/iop_gui_v3_old_258.gif);
+    border:1px solid #999;
+    width:100%;
+    /*border-bottom:0px;*/
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.formTitle1 {
+    padding: 0.3em;
+    font-weight: 900;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    font-size: 9pt;
+    color: #5a5a5a;
+}
+
+.formData {
+    border:1px solid #999999;
+    background-color: #F7F8FA;
+    width:99%;
+    margin-left:15px;
+    margin-right:15px;
+    border-top:0px;
+}
+
+.formContent {
+    background-color: #F7F8FA;
+    width: 99%;
+}
+
+.small {
+    width: 4.5em;
+    font-size: 9pt;
+    border: solid, 1px, black;
+}
+
+.small_user {
+    width: 7em;
+    font-size: 9pt;
+    border: solid, 1px, black;
+}
+
+.medium {
+    width: 10em;
+    font-size: 9pt;
+    border: solid, 1px, black;
+}
+
+.selectLength {
+    width: 6cm;
+}
+
+.firmware {
+    width: 6cm;
+    font-size: 9pt;
+    text-align: left;
+}
+
+.long {
+    width: 30em;
+    font-size: 9pt;
+    border: solid, 1px, black;
+}
+
+span.invalid, span.missing {
+    display: inline;
+    margin-left: 1em;
+    font-weight: bold;
+    font-style: italic;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    color: #f66;
+    font-size: 9pt;
+}
+
+.noticeMessage {
+    display: block;
+    float: right;
+    font-weight: normal;
+	font-family: Arial,Verdana, Helvetica, sans-serif;
+    color: #663;
+    font-size: 9pt;
+}
+
+td.emphasise {
+    width: 100px;
+    font-size: 9pt;
+    display: block;
+    text-align: right;
+}
+
+td.systemsettings {
+    width: 200px;
+    font-size: 9pt;
+    display: block;
+    text-align: right;
+}
+
+td.systemutil {
+    width: 150px;
+    font-size: 9pt;
+    display: block;
+    text-align: right;
+}
+
+td.user {
+    font-size: 9pt;
+    text-align: right;
+    width: 6.5cm
+}
+
+td.systemsettings_left {
+    width: 200px;
+    font-size: 9pt;
+    display: block;
+    text-align: left;
+}
+
+div.waitingDialog {
+    display: none;
+    border: solid thin #CEE0D7;
+    position: absolute;
+    left: expression(( body. clientWidth-600 ) / 2 );
+    top: 100px;
+    width: 600px;
+    height: 60px;
+   /* margin-bottom:50px;*/
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+    z-index: 0;
+}
+
+img.button {
+    cursor: pointer;
+    event:expression(
+        onmouseover=function() {
+            this._originsrc = this.src;
+            var srcname = this._originsrc;
+            var dotposition = srcname.lastIndexOf(".");
+            var filenamewithoutextension = srcname.substring(0, dotposition);
+            var extension = srcname.substring(dotposition, srcname.length);
+            this.src = filenamewithoutextension + "_mouseover" + extension;
+
+            /*
+             * The following is for reset timeout time when click the button
+             * It likes a interceptor, add the reset_countdown() function into
+             * the onclick event of the button dynamically.
+             */
+            if(!this.temp) {
+                this.temp = this.onclick;
+                var onClickStr = this.temp.toString();
+                var leftBracket = onClickStr.indexOf("{");
+                var rightBracket = onClickStr.lastIndexOf("}");
+                var actionStr = onClickStr.substring(leftBracket + 1, rightBracket);
+                actionStr= "parent.reset_countdown();" + actionStr;
+                /*alert("actionStr");*/
+                this.onclick = function(){eval(actionStr);}
+            }
+        },
+        onmouseout=function() {
+            this.src=this._originsrc;
+        },
+        onmousedown=function() {
+            var srcname = this._originsrc;
+            var dotposition = srcname.lastIndexOf(".");
+            var filenamewithoutextension = srcname.substring(0, dotposition);
+            var extension = srcname.substring(dotposition, srcname.length);
+            this.src = filenamewithoutextension + "_click" + extension;
+        },
+        onmouseup=function(){
+            this.src=this._originsrc;
+        }
+        /*onclick=function() {
+            alert(this.action);
+            eval(this.action);
+            parent.reset_countdown();
+        }*/
+    );
+}
+img.iconbutton {
+    cursor: pointer;
+}
+
+table.contentTable {
+    font-family: Arial,Verdana, Helvetica, sans-serif;
+    font-size: 9pt;
+    width: 95%;
+    border: 1px solid #ccc;
+    cursor: default;
+    margin-left:15px;
+    margin-right:15px;
+}
+
+table td.c1, table th.c1 {
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+    padding: 2px;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+table thead td.c2, table thead th.c2 {
+    background: #cccccc;
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+    padding: 2px;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.backgroud-image {
+    background-image:url(../images/iop_gui_v3_old_258.gif);
+}
+
+.topbutton {
+    padding:0px;
+    margin-right:15px;
+    margin-left:15px;
+    border:0px;
+    width:95%;
+    text-align:right;
+}
