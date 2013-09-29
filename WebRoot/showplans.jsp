@@ -27,6 +27,12 @@
         oSon.style.display="none";
         obj.style.backgroundColor='';
     }
+
+    function del(pid) {
+        if (confirm("Are you sure to delete this task?")) {
+            window.location.href = "/plan/delete/"+pid;
+        }
+    }
 </script>
 <STYLE type="text/css">
     TABLE.contentTable {
@@ -147,13 +153,13 @@
   int rownum=0;
    List<Map<String,Object>> plans=(List<Map<String,Object>>)request.getAttribute("plans");
     for(Map<String,Object> dp:plans){
-        System.out.println(dp.toString());
+        //System.out.println(dp.toString());
      rownum++;
 %>
 <tr valign="middle" class="deviceinfo1" onmouseover="showme(event,this);" onmouseout="hidme(this);" >
     <td><%=rownum%></td><td align="center" width="40">
         <%if("admin".equals((String)session.getAttribute("user_name")) || String.valueOf(dp.get("people")).indexOf((String)session.getAttribute("truename"))>=0){%>
-        <a href="modifyplan.jsp?id=<%=dp.get("id")%>&month=<%=month%>"><%=dp.get("proj_name")%></a>
+        <a href="/modifyplan.jsp?id=<%=dp.get("id")%>&month=<%=month%>"><%=dp.get("proj_name")%></a>
         <%}else{
           out.println(dp.get("proj_name"));
        }%>
@@ -179,7 +185,7 @@
 
     %>
      <td width="15" onmouseover="showme(event,this)" onmouseout="hidme(this)">
-         <a href="/plan/delete/id=<%=dp.get("id")%>&month=<%=month%>"><img src="/images/redpoint.gif" border="0" title="delete"> </a> </td>
+         <img src="/images/redpoint.gif" border="0" title="delete" onclick="del('<%=dp.get("id")%>')"> </td>
      <%}else{%>
     <td width="15" onmouseover="showme(event)" onmouseout="hidme()" ></td>
     <%}%>

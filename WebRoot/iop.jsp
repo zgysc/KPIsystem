@@ -173,17 +173,23 @@
             <%
 
                 List<Menu> menus=(List<Menu>)request.getAttribute("menuList");
-                Menu map= menus.get(0);
+                for(Menu menu:menus){
                 %>
+
+            <a href="<%=menu.get("forward")%>" target="content_iframe"><%=menu.get("display_name")%></a>&nbsp;&nbsp;&nbsp;
+            <%
+                }
+            %>
+            <a href="/plan/myplan" target="content_iframe">我的任务</a>&nbsp;&nbsp;&nbsp;
             <a href="/plan/readySearch/" target="content_iframe">搜索任务</a>&nbsp;&nbsp;&nbsp;
-           <a href="/showphb/" target="content_iframe">云币排行榜</a>&nbsp;&nbsp;&nbsp;
-           <a href="/prisehistory" target="content_iframe">奖惩记录</a>&nbsp;&nbsp;&nbsp;
-	   <!--<a href="ask.jsp" target="content_iframe">问卷调查</a>&nbsp;&nbsp;&nbsp;-->
+           <a href="/showphb.jsp" target="content_iframe">云币排行榜</a>&nbsp;&nbsp;&nbsp;
+           <a href="/showprisehistory.jsp" target="content_iframe">奖惩记录</a>&nbsp;&nbsp;&nbsp;
+
 	   <a href="/mobile/bin-debug/mobile.html" target="content_iframe">手机借用登记信息</a><img src="/images/new19.gif">&nbsp;&nbsp;&nbsp;
         </td>
         <td align="right" width="200" height="41" valign="bottom" background="/images/iop_gui_v3_30.gif">
-            <%=session.getAttribute("user_name")%>
-            &nbsp;<a href="editowninfo.jsp" target="content_iframe"><img class="iconbutton" src="/images/menu/edit-owninfor.gif" border="0" title="修改密码"/></a>&nbsp;
+            <%=session.getAttribute("truename")%>
+            &nbsp;<a href="/editowninfo.jsp" target="content_iframe"><img class="iconbutton" src="/images/menu/edit-owninfor.gif" border="0" title="修改密码"/></a>&nbsp;
             <img  class="iconbutton" src="/images/menu/logout.gif" onclick="logoutManul()"/></td>
         <td width="20" height="41" align="left" valign="top"><img src="/images/iop_gui_v3_32.gif" width="20" height="41"/></td>
     </tr>

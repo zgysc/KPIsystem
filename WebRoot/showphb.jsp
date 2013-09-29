@@ -1,22 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.ParseException" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.IOPConstants" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.user.User" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.util.MobicloudManager" %>
-<%@ taglib uri="tags/iopcenter.tld" prefix="iop" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.mobicloud.kpi.util.MobicloudManager" %>
+<%@ page import="com.mobicloud.kpi.Users" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="css/acs.css" rel="stylesheet"/>
-    <script type="text/javascript" src="js/dojo.js"></script>
-    <script type="text/javascript" src="js/notifycpe.js"></script>
-    <script type="text/javascript" src="js/executeTask.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/scriptaculoua/lib/prototype.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/scriptaculoua/src/scriptaculous.js?load=effects"></script>
+    <link href="/css/acs.css" rel="stylesheet"/>
     <script type="text/javascript">
         function showme(event,obj){
 
@@ -29,15 +19,13 @@
         function toggle_params(temp, img) {
             if ($(temp).style.display == "none") {
                 new Effect.SlideDown(temp);
-                img.src = "images/hide.png";
+                img.src = "/images/hide.png";
             } else {
                 new Effect.SlideUp(temp);
-                img.src = "images/show_detail.gif";
+                img.src = "/images/show_detail.gif";
             }
         }
-        function editDeviceInfo(sn) {
-            window.location.href = "modifydeviceinfo.do?from=showdevice&deviceID=" + sn;
-        }
+
 
     </script>
     <STYLE type="text/css">
@@ -103,27 +91,28 @@
       <table  class="contentTable"  cellpadding="0" cellspacing="0" border="0" width="400" align="center">
     <thead>
     <tr  style="border-bottom:1px;">
-        <th align="center" width="100" background="images/iop_gui_v3_old_258.gif">姓名</th>
-        <th align="center" width="100" background="images/iop_gui_v3_old_258.gif">云币</th>
-        <th align="center" width="100" background="images/iop_gui_v3_old_258.gif">等级</th>
-        <th align="center" width="100" background="images/iop_gui_v3_old_258.gif" >历史明细</th>
+        <th align="center" width="100" background="/images/iop_gui_v3_old_258.gif">姓名</th>
+        <th align="center" width="100" background="/images/iop_gui_v3_old_258.gif">云币</th>
+        <th align="center" width="100" background="/images/iop_gui_v3_old_258.gif">等级</th>
+        <th align="center" width="100" background="/images/iop_gui_v3_old_258.gif" >历史明细</th>
     </tr>
     </thead>
     <tbody>
     <%
-        List<User> phbusers=(List<User>)request.getAttribute("phbusers");
+        List<Users> phbusers= MobicloudManager.getInstance().getPHB();
         int i_order=0;
         int lastvalue=99999;
         int currentphb=0;
-        for(User user:phbusers){
+        for(Users user:phbusers){
          i_order++;
-        if("2".equals(String.valueOf(user.getUserId()))) continue;
+        if("2".equals(String.valueOf(user.get("user_id")))) continue;
     %>
     <tr valign="middle" class="deviceinfo1" onmouseover="showme(event,this);" onmouseout="hidme(this);" >
         <td align="left">
             <%
-                if(user.getDd_number()>0){
-                    if(user.getDd_number()<lastvalue){currentphb++;}
+                int uservalue=(Integer)user.get("dd_number");
+                if(uservalue>0){
+                    if(uservalue<lastvalue){currentphb++;}
                     if(currentphb==1){
                       out.println("<img src='images/golden.png'>");
 		     	
@@ -133,16 +122,16 @@
                	    }else if(currentphb==3){
                    	 out.println("<img src='images/cu.png'>");
                     }
-                    lastvalue=user.getDd_number();
-                    out.print("<b><font color=green>"+user.getNote()+"</font></b>");
+                    lastvalue=uservalue;
+                    out.print("<b><font color=green>"+user.get("note")+"</font></b>");
                }else{
-		out.print(user.getNote());
+		out.print(user.get("note"));
 		}
 
         %></td>
-        <td align="center"><%=user.getDd_number()%></td>
-        <td align="center"><%=MobicloudManager.getInstance().getRank(user.getDd_number())%></td>
-        <td align="center"><a href="showdevices.do?act=prisehistory&user_id=<%=user.getUserId()%>"><img src="images/viewdetail.gif" border="0" title="查看明细"></a></td>
+        <td align="center"><%=uservalue%></td>
+        <td align="center"><%=MobicloudManager.getInstance().getRank(uservalue)%></td>
+        <td align="center"><a href="/showprisehistory.jsp?act=prisehistory&user_id=<%=user.get("user_id")%>"><img src="/images/viewdetail.gif" border="0" title="查看明细"></a></td>
 
     </tr>
     <%}%>
@@ -158,19 +147,19 @@
             </table>
             <table border=1 width=400>
                 <tr><td>云币值</td><td>图标</td><td>军衔</td></tr>
-                <tr>  <td>&lt;=50</td><td><img src="images/lv3.gif"></td><td>列兵</td></tr>
-                <tr> <td>100</td><td><img src="images/lv3.gif"><img src="images/lv3.gif"></td><td>少尉</td></tr>
-                <tr> <td>200</td><td><img src="images/lv3.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"></td><td>中尉</td></tr>
-                <tr> <td>500</td><td><img src="images/lv2.gif"></td><td>上尉</td></tr>
-                <tr><td>1000</td><td><img src="images/lv2.gif"><img src="images/lv3.gif"></td><td>少校</td></tr>
-                <tr><td>1500</td><td><img src="images/lv2.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"></td><td>中校</td></tr>
-                <tr><td>2100</td><td><img src="images/lv2.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"></td><td>上校</td></tr>
-                <tr><td>2900</td><td><img src="images/lv2.gif"><img src="images/lv2.gif"></td><td>大校</td></tr>
-                <tr><td>3900</td><td><img src="images/lv2.gif"><img src="images/lv2.gif"><img src="images/lv3.gif"></td><td>少将</td></tr>
-                <tr><td>5000</td><td><img src="images/lv2.gif"><img src="images/lv2.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"></td><td>中将</td></tr>
-                <tr><td>7700</td><td><img src="images/lv2.gif"><img src="images/lv2.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"><img src="images/lv3.gif"></td><td>上将</td></tr>
-                <tr><td>9000</td><td><img src="images/lv2.gif"><img src="images/lv2.gif"><img src="images/lv2.gif"></td><td>大将</td></tr>
-                <tr><td>&gt;9000</td><td><img src="images/lv1.gif"></td><td>元帅</td></tr>
+                <tr>  <td>&lt;=50</td><td><img src="/images/lv3.gif"></td><td>列兵</td></tr>
+                <tr> <td>100</td><td><img src="/images/lv3.gif"><img src="/images/lv3.gif"></td><td>少尉</td></tr>
+                <tr> <td>200</td><td><img src="/images/lv3.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"></td><td>中尉</td></tr>
+                <tr> <td>500</td><td><img src="/images/lv2.gif"></td><td>上尉</td></tr>
+                <tr><td>1000</td><td><img src="/images/lv2.gif"><img src="/images/lv3.gif"></td><td>少校</td></tr>
+                <tr><td>1500</td><td><img src="/images/lv2.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"></td><td>中校</td></tr>
+                <tr><td>2100</td><td><img src="/images/lv2.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"></td><td>上校</td></tr>
+                <tr><td>2900</td><td><img src="/images/lv2.gif"><img src="/images/lv2.gif"></td><td>大校</td></tr>
+                <tr><td>3900</td><td><img src="/images/lv2.gif"><img src="/images/lv2.gif"><img src="/images/lv3.gif"></td><td>少将</td></tr>
+                <tr><td>5000</td><td><img src="/images/lv2.gif"><img src="/images/lv2.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"></td><td>中将</td></tr>
+                <tr><td>7700</td><td><img src="/images/lv2.gif"><img src="/images/lv2.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"><img src="/images/lv3.gif"></td><td>上将</td></tr>
+                <tr><td>9000</td><td><img src="/images/lv2.gif"><img src="/images/lv2.gif"><img src="/images/lv2.gif"></td><td>大将</td></tr>
+                <tr><td>&gt;9000</td><td><img src="/images/lv1.gif"></td><td>元帅</td></tr>
             </table>
  <table class="topbutton" align="center" border=0>
                 <tr>

@@ -41,7 +41,7 @@ public class GroovyScriptManager {
             getClass().getClassLoader().getResource("scripts/")
     });
 
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         String ordertype="";
         Binding binding=new Binding();
         binding.setProperty("order_type",2);
@@ -49,5 +49,5 @@ public class GroovyScriptManager {
         GroovyScriptManager.getInstance().runScript("ordertype.groovy",binding);
         ordertype= (String)binding.getVariable("ordertype");
         System.out.println(ordertype);
-    }
+    }*/
 }

@@ -1,16 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=gb2312"
-         pageEncoding="gb2312"  %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.bean.DevPlan" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.util.MobicloudManager" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"  %>
 <%@ page import="org.apache.commons.lang.StringUtils" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.mobicloud.kpi.util.MobicloudManager" %>
+<%@ page import="com.mobicloud.kpi.Devplan" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-    <script type="text/javascript" src="js/dojo.js"></script>
-    <link href="css/acs.css" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="/css/acs.css" rel="stylesheet"/>
+    <link href="/js/jquery-1.4.4.min.js" rel="stylesheet"/>
     <style type="text/css">
 
         table td, table th {
@@ -32,73 +29,72 @@
 <%
     String pid=request.getParameter("id");
 
-    DevPlan dp= MobicloudManager.getInstance().getPlanById(pid);
+    Devplan dp= Devplan.dao.findById(pid);
 
 %>
-<form name="f" method="post" action="showdevices.do">
+<form name="f" method="post" action="/plan/update/">
     <div class="formTitle">
         <span>Update Plan</span>
     </div>
     <div id="formData" class="formData">
         <table class="formContent">
             <tr>
-                <td>��Ŀ���ƣ�</td>
-                <td><%=dp.getProj_name()%></td>
+                <td>项目名称：</td>
+                <td><%=dp.get("proj_name")%></td>
             </tr>
-            <tr><td>�������ͣ�</td><td><%=dp.getOrder_type()%></td></tr>
-            <tr><td>�����ţ�</td><td><%=dp.getOrder_number()%></td></tr>
+            <tr><td>工单号：</td><td><%=MobicloudManager.getInstance().defaultstring(dp.get("order_number"))%></td></tr>
             <tr>
-                <td>�����ˣ�</td>
-                <td><%=dp.getPeople()%></td>
-            </tr>
-            <tr>
-                <td>�������ƣ�</td>
-                <td><%=dp.getMarket_named_func()%></td>
+                <td>负责人：</td>
+                <td><%=dp.get("people")%></td>
             </tr>
             <tr>
-                <td>����ֽ����ƣ�</td>
-                <td><%=dp.getRD_named_func()%></td>
+                <td>需求名称：</td>
+                <td><%=dp.get("market_named_func")%></td>
             </tr>
             <tr>
-                <td>Ԥ�ƿ�ʼʱ�䣺</td>
+                <td>需求分解名称：</td>
+                <td><%=MobicloudManager.getInstance().defaultstring(dp.get("RD_named_func"))%></td>
+            </tr>
+            <tr>
+                <td>预计开始时间：</td>
                 <td>
-                    <input name="plan_start" type="text" maxlength="20" size="20" value="<%=dp.getPlan_start()%>">
+                    <input name="plan_start" type="text" maxlength="20" size="20" value="<%=dp.get("plan_start")%>">
 
                 </td>
             </tr>
             <tr>
-                <td>Ԥ�ƽ���ʱ�䣺</td>
+                <td>预计结束时间：</td>
                 <td>
-                    <input name="plan_end" type="text" maxlength="20" size="20" value="<%=dp.getPlan_end()%>">
+                    <input name="plan_end" type="text" maxlength="20" size="20" value="<%=dp.get("plan_end")%>">
 
                 </td>
             </tr>
             <tr>
-                <td>ʵ�ʿ�ʼʱ�䣺</td>
+                <td>实际开始时间：</td>
                 <td>
-                    <input name="actual_start" type="text" maxlength="20" size="20" value="<%=StringUtils.defaultString(dp.getActual_start())%>">
+                    <input name="actual_start" type="text" maxlength="20" size="20" value="<%=MobicloudManager.getInstance().defaultstring(dp.get("actual_start"))%>">
 
                 </td>
             </tr>
             <tr>
-                <td>ʵ�ʽ���ʱ�䣺</td>
+                <td>实际结束时间：</td>
                 <td>
-                    <input name="actual_end" type="text" maxlength="20" size="20" value="<%=StringUtils.defaultString(dp.getActual_end())%>">
+                    <input name="actual_end" type="text" maxlength="20" size="20" value="<%=MobicloudManager.getInstance().defaultstring(dp.get("actual_end"))%>">
 
                 </td>
             </tr>
             <tr>
-                <td>���ȣ�</td>
+                <td>进度：</td>
                 <td>
-                    <input name="percentage" type="text" maxlength="20" size="10" value="<%=dp.getPercentage()%>">
+                    <input name="percentage" type="text" maxlength="20" size="10" value="<%=dp.get("percentage")%>">
 
                 </td>
             </tr>
 
             <tr>
-                <td>��ע��</td>
+                <td>备注：</td>
                 <td>
-                    <input name="desp" type="text" maxlength="200" size="90" value="<%=dp.getDescription()%>">
+                    <input name="desp" type="text" maxlength="200" size="90" value="<%=MobicloudManager.getInstance().defaultstring(dp.get("description"))%>">
 
                 </td>
             </tr>
@@ -113,9 +109,9 @@
             </tr>
         </table>
     </div>
-    <input type="hidden" name="act" value="modifyplan"/>
+
     <input type="hidden" name="id" value="<%=pid%>"/>
-    <input type="hidden" name="isinterupt" value="0"/>
+
 </form>
 </body>
 </html>

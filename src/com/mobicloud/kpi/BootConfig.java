@@ -7,17 +7,21 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.JspRender;
 import com.jfinal.render.ViewType;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+
 /**
  * API引导式配置
  */
 public class BootConfig extends JFinalConfig {
-	
+	 private static Log log= LogFactory.getLog(BootConfig.class);
 	/**
 	 * 配置常量
 	 */
 	public void configConstant(Constants me) {
 		loadPropertyFile("db.conf");				// 加载少量必要配置，随后可用getProperty(...)获取值
-		me.setDevMode(getPropertyToBoolean("devMode", true));
+		me.setDevMode(getPropertyToBoolean("devMode", false));
 		me.setViewType(ViewType.JSP); 							// 设置视图类型为Jsp，否则默认为FreeMarker
 	}
 	
@@ -33,6 +37,7 @@ public class BootConfig extends JFinalConfig {
 	 * 配置插件
 	 */
 	public void configPlugin(Plugins me) {
+        log.info(String.format("read db info url:%s, user:%s, pwd:%s",getProperty("jdbcUrl"), getProperty("user"), getProperty("password")));
 		// 配置C3p0数据库连接池插件
 		C3p0Plugin c3p0Plugin = new C3p0Plugin(getProperty("jdbcUrl"), getProperty("user"), getProperty("password").trim());
 		me.add(c3p0Plugin);
@@ -45,6 +50,10 @@ public class BootConfig extends JFinalConfig {
         arp.addMapping("menu",Menu.class);
         arp.addMapping("proj",Proj.class);
         arp.addMapping("market_func",MarketFunc.class);
+        arp.addMapping("order_type",OrderType.class);
+        arp.addMapping("curstep",CurStep.class);
+        arp.addMapping("devplan",Devplan.class);
+        arp.addMapping("prisehistory",PriseInfo.class);
 	}
 	
 	/**

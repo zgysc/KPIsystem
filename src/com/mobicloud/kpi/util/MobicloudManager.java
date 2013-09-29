@@ -3,24 +3,20 @@ package com.mobicloud.kpi.util;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 
-import com.mobicloud.kpi.GroovyScriptManager;
-import com.mobicloud.kpi.OrderType;
-import groovy.lang.Binding;
+import com.mobicloud.kpi.*;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.*;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: lion
- * Date: 13-9-19
- * Time: 下午3:53
- * To change this template use File | Settings | File Templates.
- */
+
 public class MobicloudManager {
+    private static Log log= LogFactory.getLog(MobicloudManager.class);
     private MobicloudManager() {
     }
     private static class builder {
@@ -45,17 +41,35 @@ public class MobicloudManager {
     {
         return dao.addPlan(user_name, proj_name, order_type, order_number, marked_func, rd_func, curstep, people, plan_start, plan_end, desp);
     }
-
-    public List<Devplan> getAllPlans()
-    {
-        return dao.getAllPlan();
-    }
 */
+    public List<Proj> getAllProject()
+    {
+        return Proj.dao.find("select * from proj");
+    }
+
+    public List<MarketFunc> getAllMaretFunc(){
+        return MarketFunc.dao.find("select * from market_func");
+    }
+
+    public List<OrderType> getAllOrderType(){
+        return OrderType.dao.find("select * from order_type");
+    }
+
+    public List<Users> getAllUsers(){
+        return Users.dao.find("select * from users where level=1");
+    }
+
+    public List<CurStep> getAllSteps(){
+        return CurStep.dao.find("select * from curstep");
+    }
+
     public List<Map<String,Object>> searchPlan(Map c)
     {
         return searchPlan(c, "");
     }
-
+    public List<Users> getPHB(){
+        return Users.dao.find("select * from users where level=1 order by dd_number desc");
+    }
     public List<Map<String,Object>> searchPlan(Map c, String order)
     {
         StringBuffer sql;
@@ -66,9 +80,11 @@ public class MobicloudManager {
             for(Iterator i$ = c.entrySet().iterator(); i$.hasNext();)
             {
                 java.util.Map.Entry ci = (java.util.Map.Entry)i$.next();
-                if("people".equals(ci.getKey()))
+                if("people".equals(ci.getKey())){
                     sql.append((flag ? " where " : " and ")).append((String)ci.getKey()).append(" like '%").append((String)ci.getValue()).append("%'");
-                else
+                }else if("unfinished".equals(ci.getKey())){
+                    sql.append((flag ? " where " : " and ")).append(" plan_end<now() and percentage<100");
+                }else
                     sql.append((flag ? " where " : " and ")).append((String)ci.getKey()).append("='").append((String)ci.getValue()).append("'");
                 flag = false;
             }
@@ -79,7 +95,7 @@ public class MobicloudManager {
         else
             sql.append(" order by ").append(order);
         List<Map<String,Object>> plans = new ArrayList<Map<String,Object>>();
-
+        log.info("search sql:"+sql.toString());
         try
         {
             List<Record> records=Db.find(sql.toString()) ;
@@ -132,15 +148,14 @@ public class MobicloudManager {
            color="#ffaaff";
         }
 
-        if("100".equals(String.valueOf(result.get("percentage")))) color="#00ff00";
+
         if((Integer)maps.get("startDelay")<0) {
             color="#ff0000";
-        }else{
-            color="#00ff00";
         }
         if(compareDate(maps.get("plan_end").toString(),maps.get("actual_end").toString())){
             color="#00ff00";
         }
+        if("100".equals(String.valueOf(result.get("percentage")))) color="#00ff00";
         maps.put("color",color);
         return maps;
     }
@@ -245,7 +260,7 @@ public class MobicloudManager {
                         String.valueOf(dp.get("proj_name"))
                 });
                 addCell(1, null, trow, new String[] {
-                        String.valueOf(dp.get("Order_type"))
+                        String.valueOf(dp.get("order_type"))
                 });
                 addCell(2, null, trow, new String[] {
                         String.valueOf(dp.get("market_named_func"))
@@ -356,12 +371,41 @@ public class MobicloudManager {
         }
     }
     public String getOrderTypeName(int order_type){
-        String ordertype="";
+        if(1==order_type){
+            return "正常计划";
+        }else if(2==order_type){
+            return "运营实施";
+        }else if(3==order_type){
+            return "紧急调配";
+        }else{
+            return String.valueOf(order_type);
+        }
+        /*String ordertype="";
         Binding binding=new Binding();
         binding.setProperty("order_type",order_type);
         binding.setVariable("order_type",order_type);
         GroovyScriptManager.getInstance().runScript("ordertype.groovy",binding);
         ordertype= (String)binding.getProperty("ordertype");
-        return ordertype;
+        return ordertype;*/
+
+    }
+    public String defaultstring(Object src){
+         if(src==null) return "";
+        if("null".equals(src.toString())) return "";
+        return String.valueOf(src);
+    }
+    public List<Map<String,Object>> getPriseHistory(String user_id){
+
+        String sql = "select p.*,u.note truename from prisehistory p,users u where p.user_id=u.user_id";
+        if(user_id!=null && !"".equals(user_id)){
+            sql = sql + " and p.user_id="+user_id;
+        }
+        sql =sql +" order by p.thedate desc";
+        List<Record> list=Db.find(sql);
+        List<Map<String,Object>> mapList=new ArrayList<Map<String, Object>>();
+        for(Record record:list){
+            mapList.add(record.getColumns());
+        }
+        return mapList;
     }
 }

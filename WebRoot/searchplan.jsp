@@ -64,7 +64,7 @@
                 <td>需求名称：</td>
                 <td>
                     <select name="market_func">
-                        <option value="ALL" selected>----------</option>
+                        <option value="ALL" selected>-------------------</option>
                         <%
                             for(MarketFunc pi:funcs){
 
@@ -93,6 +93,14 @@
                 <option <%=(i==month?"selected":"")%> ><%=i%></option>
                 <%}%>
             </select></td></tr>
+            <tr>
+                <td>任务完成情况：</td><td>
+                <select name="finishflag" >
+                    <option value="ALL" selected >--------------</option>
+                    <option value="unfinish">未完成的任务</option>
+                </select>
+                </td>
+            </tr>
             <tr>
                 <td>排序顺序：</td>
                 <td>

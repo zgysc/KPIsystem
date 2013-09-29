@@ -1,37 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=gb2312"
-         pageEncoding="gb2312"  %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.bean.ProjectInfo" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"   pageEncoding="UTF-8"  %>
+
 <%@ page import="java.util.List" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.user.User" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    //    Vector userList = (Vector) request.getAttribute("users");
-    //boolean menuWritePrivilege = ((User) session.getAttribute(IOPConstants.USER_INFO_IN_PAGE)).checkMenuWritePrivilege(IOPDBTableConstants.SHOW_FIRMWARES);
-%>
+<%@ page import="com.mobicloud.kpi.*" %>
+<%@ page import="com.mobicloud.kpi.util.MobicloudManager" %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-    <script type="text/javascript" src="js/dojo.js"></script>
-    <script type="text/javascript">
-
-        function refresh() {
-            window.location.href = "showfirmwares.do";
-        }
-
-
-
-        function addFirmware() {
-            window.location.href = "addfirmware.jsp";
-        }
-
-        function download(fwid) {
-            window.location.href = "downloadiopfirmware.do?firmwareid=" + fwid;
-        }
-    </script>
-    <link href="css/acs.css" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="/css/acs.css" rel="stylesheet"/>
     <style type="text/css">
             /***
                    The following is just an example of how to use the table.
@@ -58,87 +36,104 @@
 <body>
 <br/>
 <%
-    List<ProjectInfo> projects=(List<ProjectInfo>)request.getAttribute("projects");
-    List<User> peoples=(List<User>)request.getAttribute("peoples");
-    List<String> mfuncs=(List<String>)request.getAttribute("functions");
+    List<Proj> projects= MobicloudManager.getInstance().getAllProject();
+    List<Users> peoples=MobicloudManager.getInstance().getAllUsers();
+    List<MarketFunc> mfuncs=MobicloudManager.getInstance().getAllMaretFunc();
+    List<OrderType> orderTypes=MobicloudManager.getInstance().getAllOrderType();
+    List<CurStep> steps=MobicloudManager.getInstance().getAllSteps();
     String date= new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 %>
-<form name="f" method="post" action="showfirmwares.do">
+<form name="f" method="post" action="/plan/add">
     <div class="formTitle">
         <span>Add Plan</span>
     </div>
     <div id="formData" class="formData">
 <table class="formContent">
   <tr>
-      <td>ÏîÄ¿Ãû³Æ£º</td>
+      <td>é¡¹ç›®åç§°ï¼š</td>
       <td>
-          <select name="proj_name">
+          <select name="devplan.proj_name">
      <%
          int piid=0;
-         for(ProjectInfo pi:projects){
+         for(Proj pi:projects){
           piid++;
      %>
-      <option <%=(piid==2?"selected":"")%> ><%=pi.getProject_name()%></option>
+      <option <%=(piid==2?"selected":"")%> ><%=pi.getStr("proj_name")%></option>
               <%}%>
         </select>
       </td>
   </tr>
-    <tr><td>ÈÎÎñÀàĞÍ£º</td><td><select name="order_type"><option value="1">²úÆ·¿ª·¢</option><option value="2">ÔËÓªÊµÊ©</option><option value="3">½ô¼±µ÷Åä</option></select></td></tr>
-    <tr><td>Ëù´¦½×¶Î£º</td><td><select name="curstep"><option value="1" selected>ÑĞ·¢½×¶Î</option><option value="2">ÑĞ·¢ÄÚ²¿Áªµ÷</option><option value="3" >QAĞ´²âÊÔÓÃÀı</option><option value="4" >QA²âÊÔĞŞBUG</option> </select></td></tr>
-    <tr><td>¹¤µ¥ºÅ£º</td><td><input type=text name="order_number" size=30></td></tr>
+    <tr><td>ä»»åŠ¡ç±»å‹ï¼š</td><td>
+        <select name="devplan.order_type">
+            <%for(OrderType orderType:orderTypes){
+            int theid = orderType.getLong("id").intValue();
+            %>
+            <option value="<%=theid%>" <%=(theid==1?"selected":"")%> ><%=orderType.getStr("name")%></option>
+            <%}%>
+
+        </select>
+    </td></tr>
+    <tr><td>æ‰€å¤„é˜¶æ®µï¼š</td><td><select name="devplan.curstep">
+        <%for(CurStep step:steps){
+            int theid = step.getInt("id");
+        %>
+        <option value="<%=theid%>" <%=(theid==1?"selected":"")%> ><%=step.getStr("name")%></option>
+        <%}%>
+    </select></td></tr>
+    <tr><td>å·¥å•å·ï¼š</td><td><input type=text name="devplan.order_number" size=30></td></tr>
     <tr>
-        <td>¸ºÔğÈË£º</td>
+        <td>è´Ÿè´£äººï¼š</td>
         <td>
-            <select name="people" multiple >
+            <select name="devplan.people" multiple >
                 <%
-                    for(User pi:peoples){
+                    for(Users pi:peoples){
 
                 %>
-                <option><%=pi.getNote()%></option>
+                <option><%=pi.getStr("note")%></option>
                 <%}%>
-            </select> *°´×¡ctrl¿ÉÒÔÑ¡¶àÈË
+            </select> *æŒ‰ä½ctrlå¯ä»¥é€‰å¤šäºº  ${peoplemsg}
         </td>
     </tr>
     <tr>
-        <td>ĞèÇóÃû³Æ£º</td>
+        <td>éœ€æ±‚åç§°ï¼š</td>
         <td><!--<input name="market_func" maxlength="100" size="90"/-->
 
-              <select name="market_func">
+              <select name="devplan.market_named_func">
                 <%
-                    for(String pi:mfuncs){
+                    for(MarketFunc pi:mfuncs){
 
                 %>
-                <option value="<%=pi%>" > <%=pi%> </option>
+                <option value="<%=pi.getStr("name")%>" > <%=pi.getStr("name")%> </option>
                 <%}%>
             </select>
 
         </td>
     </tr>
     <tr>
-        <td>ĞèÇó·Ö½âÃû³Æ£º</td>
+        <td>éœ€æ±‚åˆ†è§£åç§°ï¼š</td>
         <td>
-            <input name="rd_func" type="text" maxlength="200" size="90">
+            <input name="devplan.RD_named_func" type="text" maxlength="200" size="90">
 
         </td>
     </tr>
     <tr>
-        <td>Ô¤¼Æ¿ªÊ¼Ê±¼ä£º</td>
+        <td>é¢„è®¡å¼€å§‹æ—¶é—´ï¼š</td>
         <td>
-            <input name="plan_start" type="text" maxlength="20" size="20" value="<%=date%>">
+            <input name="devplan.plan_start" type="text" maxlength="20" size="20" value="<%=date%>">
 
         </td>
     </tr>
     <tr>
-        <td>Ô¤¼Æ½áÊøÊ±¼ä£º</td>
+        <td>é¢„è®¡ç»“æŸæ—¶é—´ï¼š</td>
         <td>
-            <input name="plan_end" type="text" maxlength="20" size="20" value="<%=date%>">
+            <input name="devplan.plan_end" type="text" maxlength="20" size="20" value="<%=date%>">
 
         </td>
     </tr>
     <tr>
-        <td>±¸×¢£º</td>
+        <td>å¤‡æ³¨ï¼š</td>
         <td>
-            <input name="desp" type="text" maxlength="200" size="90">
+            <input name="devplan.description" type="text" maxlength="200" size="90">
 
         </td>
     </tr>
@@ -153,7 +148,7 @@
             </tr>
         </table>
     </div>
-    <input type="hidden" name="action" value="add"/>
+    <input type="hidden" name="devplan.operator" value="<%=(String)session.getAttribute("user_name")%>"/>
 </form>
 </body>
 </html>

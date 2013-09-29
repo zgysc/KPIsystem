@@ -1,39 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.bean.PriseInfo" %>
-<%@ page import="com.workssys.uen.comserver.iopcenter.util.MobicloudManager" %>
-<%@ taglib uri="tags/iopcenter.tld" prefix="iop" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.mobicloud.kpi.util.MobicloudManager" %>
+<%@ page import="com.mobicloud.kpi.PriseInfo" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="css/acs.css" rel="stylesheet"/>
-    <script type="text/javascript" src="js/dojo.js"></script>
-    <script type="text/javascript" src="js/notifycpe.js"></script>
-    <script type="text/javascript" src="js/executeTask.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/scriptaculoua/lib/prototype.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/scriptaculoua/src/scriptaculous.js?load=effects"></script>
+    <link href="/css/acs.css" rel="stylesheet"/>
     <script type="text/javascript">
-        dojo.require("dojo.string");
-        dojo.require("dojo.io.*");
-        dojo.require("dojo.event.*");
+
 
 
         function toggle_params(temp, img) {
             if ($(temp).style.display == "none") {
                 new Effect.SlideDown(temp);
-                img.src = "images/hide.png";
+                img.src = "/images/hide.png";
             } else {
                 new Effect.SlideUp(temp);
-                img.src = "images/show_detail.gif";
+                img.src = "/images/show_detail.gif";
             }
         }
         function showpic(img){
             var path=img;
             if(path!=null){
-                var ulr="showimg.jsp?img="+img
+                var ulr="showimg.jsp?img=/"+img
                window.showModalDialog(ulr,window,"dialogHeight:500px;dialogWidth:350px;dialogTop:400px;dialogLeft:400px;resizable:yes;scrollbars:yes;titlebar:no");
 
             }
@@ -109,23 +99,23 @@
     </thead>
     <tbody>
     <%
-        List<PriseInfo> infos = MobicloudManager.getInstance().getPriseHistory(request.getParameter("user_id"), true);
+        List<Map<String,Object>> infos = MobicloudManager.getInstance().getPriseHistory(request.getParameter("user_id"));
 
-        for(PriseInfo info:infos){
+        for(Map info:infos){
 
     %>
     <tr valign="middle" class="deviceinfo1" onmouseover="showme(event,this);" onmouseout="hidme(this);" >
-        <td align="center"><%=info.getThedate()%></td>
-        <td align="center" ><%=info.getUser_name()%></td>
+        <td align="center"><%=info.get("thedate")%></td>
+        <td align="center" ><%=info.get("truename")%></td>
         <td align="center">
             <%
-            if(Integer.parseInt(info.getScore())>0){
-              out.print("<font color=green>"+info.getScore()+"</font>");
+            if((Integer)info.get("score")>0){
+              out.print("<font color=green>"+info.get("score")+"</font>");
             }else{
-                out.print("<font color=red>"+info.getScore()+"</font>");
+                out.print("<font color=red>"+info.get("score")+"</font>");
             }
         %></td>
-        <td align="left"><span onclick="showpic('<%=info.getImg()%>')"><%=info.getReason()%></span></td>
+        <td align="left"><span onclick="showpic('<%=info.get("img")%>')"><%=info.get("reason")%></span></td>
     </tr>
     <%}%>
 
